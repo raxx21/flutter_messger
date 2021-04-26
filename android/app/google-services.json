@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "946759133899",
+    "project_id": "fassbook-c6fee",
+    "storage_bucket": "fassbook-c6fee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946759133899:android:6272599170c3e5de49894e",
+        "android_client_info": {
+          "package_name": "com.rajesh.flutter_ui_msg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "946759133899-rsmkg741ec1khovldgb14rk2plj4othq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRNLe82vY_bGy_ftR98_Mo4GHoaGjPrA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "946759133899-rsmkg741ec1khovldgb14rk2plj4othq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
