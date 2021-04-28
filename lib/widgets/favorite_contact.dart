@@ -8,6 +8,7 @@ class FavoriteContact extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<List<UserDataFirebase>>(context) ?? [];
+    final userdata = Provider.of<UserDocFirebase>(context);
     return Column(
       children: [
         Padding(
@@ -46,31 +47,35 @@ class FavoriteContact extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => ChatRoom(user: favorites[index])),
+                        builder: (_) => ChatRoom(user: user[index])),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 35.0,
-                          backgroundImage: user[index].imageUrl == ''
-                              ? AssetImage(favorites[index].imageUrl)
-                              : NetworkImage(user[index].imageUrl),
-                        ),
-                        SizedBox(
-                          height: 6.0,
-                        ),
-                        Text(
-                          user[index].username,
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 16.0,
+                  child: userdata.uid == user[index].uid
+                      ? SizedBox(
+                          height: 10.0,
+                        )
+                      : Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              CircleAvatar(
+                                radius: 35.0,
+                                backgroundImage: user[index].imageUrl == ''
+                                    ? AssetImage(favorites[index].imageUrl)
+                                    : NetworkImage(user[index].imageUrl),
+                              ),
+                              SizedBox(
+                                height: 6.0,
+                              ),
+                              Text(
+                                user[index].username,
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
                 );
               }),
         )

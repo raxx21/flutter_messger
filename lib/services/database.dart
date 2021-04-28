@@ -23,6 +23,7 @@ class DatabaseService {
   List<UserDataFirebase> _userListFromSnapshots(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return UserDataFirebase(
+        uid: doc.id,
         username: doc.data()['username'] ?? '',
         phone: doc.data()['phone'] ?? '',
         imageUrl: doc.data()['imageUrl'],

@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_msg/models/message_model.dart';
+import 'package:flutter_ui_msg/models/user_firebase.dart';
 import 'package:flutter_ui_msg/models/user_model.dart';
 
 class ChatRoom extends StatefulWidget {
-  final User user;
+  final UserDataFirebase user;
   ChatRoom({this.user});
   @override
   _ChatRoomState createState() => _ChatRoomState();
@@ -107,7 +108,7 @@ class _ChatRoomState extends State<ChatRoom> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        title: Text(widget.user.name,
+        title: Text(widget.user.username,
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.w600,
