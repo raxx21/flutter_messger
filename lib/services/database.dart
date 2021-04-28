@@ -61,4 +61,49 @@ class DatabaseService {
       imageUrl = downloadUrl;
     }
   }
+
+  //method for sending the msg
+  Future addMessage(
+      String chatRoom, String messageId, Map messageInfoMap) async {
+    return FirebaseFirestore.instance
+        .collection("chatrooms")
+        .doc(chatRoom)
+        .collection("chats")
+        .doc(messageId)
+        .set(messageInfoMap);
+  }
+
+  updateLastMessage(String chatRoom, Map lastMessageInfoMap) {
+    return FirebaseFirestore.instance
+        .collection("chatrooms")
+        .doc(chatRoom)
+        .update(lastMessageInfoMap);
+  }
+
+  //create a chatroom
+  createChatRoom(String chatRoomId, Map chatRoomInfoMap) async {
+    final snapShot = await FirebaseFirestore.instance
+        .collection("chatrooms")
+        .doc(chatRoomId)
+        .get();
+
+    if (snapShot.exists) {
+      return true;
+    } else {
+      return FirebaseFirestore.instance
+          .collection("chatrooms")
+          .doc(chatRoomId)
+          .set(chatRoomInfoMap);
+    }
+  }
+
+  //get messages from chats
+  Future<Stream<QuerySnapshot>> getMessagesFromChat(chatRoomId) async {
+    return FirebaseFirestore.instance
+        .collection("chatrooms")
+        .doc(chatRoomId)
+        .collection("chats")
+        .orderBy("ts", descending: true)
+        .snapshots();
+  }
 }

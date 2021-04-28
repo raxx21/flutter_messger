@@ -47,7 +47,10 @@ class FavoriteContact extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => ChatRoom(user: user[index])),
+                        builder: (_) => ChatRoom(
+                              user: user[index],
+                              me: userdata,
+                            )),
                   ),
                   child: userdata.uid == user[index].uid
                       ? SizedBox(
@@ -60,7 +63,7 @@ class FavoriteContact extends StatelessWidget {
                               CircleAvatar(
                                 radius: 35.0,
                                 backgroundImage: user[index].imageUrl == ''
-                                    ? AssetImage(favorites[index].imageUrl)
+                                    ? AssetImage("assets/image/greg.jpg")
                                     : NetworkImage(user[index].imageUrl),
                               ),
                               SizedBox(

@@ -11,6 +11,17 @@ class RecentChats extends StatelessWidget {
   String imageUrl;
   @override
   Widget build(BuildContext context) {
+    //creating chatroom
+    getChatRoomId(String a, String b) {
+      if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+        print("$b\_$a");
+        return "$b\_$a";
+      } else {
+        print("$a\_$b");
+        return "$a\_$b";
+      }
+    }
+
     final user = Provider.of<List<UserDataFirebase>>(context) ?? [];
     final userdata = Provider.of<UserDocFirebase>(context);
     return Expanded(
@@ -34,11 +45,23 @@ class RecentChats extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 final Message chat = chats[index];
                 return GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => ChatRoom(user: user[index])),
-                  ),
+                  onTap: () {
+                    var chatRoomId =
+                        getChatRoomId(userdata.username, user[index].username);
+                    Map<String, dynamic> chatRoomInfoMap = {
+                      "users": [userdata.username, user[index].username],
+                    };
+                    DatabaseService()
+                        .createChatRoom(chatRoomId, chatRoomInfoMap);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ChatRoom(
+                                user: user[index],
+                                me: userdata,
+                              )),
+                    );
+                  },
                   child: userdata.uid == user[index].uid
                       ? SizedBox(
                           height: 10.0,
