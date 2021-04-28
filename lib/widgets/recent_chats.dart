@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ui_msg/models/message_model.dart';
 import 'package:flutter_ui_msg/models/user_firebase.dart';
 import 'package:flutter_ui_msg/screens/chat_room.dart';
+import 'package:flutter_ui_msg/services/database.dart';
 import 'package:provider/provider.dart';
 
 class RecentChats extends StatelessWidget {
+  final DatabaseService _databaseService = DatabaseService();
+  String imageUrl;
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<List<UserDataFirebase>>(context);
-    user.forEach((element) {
-      print(element.username);
-      print(element.phone);
-    });
+    final user = Provider.of<List<UserDataFirebase>>(context) ?? [];
+    final userdata = Provider.of<UserDocFirebase>(context);
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -56,8 +56,9 @@ class RecentChats extends StatelessWidget {
                             children: [
                               CircleAvatar(
                                 radius: 30.0,
-                                backgroundImage:
-                                    AssetImage(chat.sender.imageUrl),
+                                backgroundImage: user[index].imageUrl == ''
+                                    ? AssetImage(chat.sender.imageUrl)
+                                    : NetworkImage(user[index].imageUrl),
                               ),
                               SizedBox(
                                 width: 10.0,

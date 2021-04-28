@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_msg/models/message_model.dart';
 import 'package:flutter_ui_msg/models/user_firebase.dart';
+import 'package:flutter_ui_msg/screens/profile.dart';
 import 'package:flutter_ui_msg/services/auth.dart';
 import 'package:flutter_ui_msg/services/database.dart';
 import 'package:flutter_ui_msg/widgets/category_selector.dart';
@@ -17,8 +19,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserFirebase>(context);
     return StreamProvider<List<UserDataFirebase>>.value(
       value: DatabaseService().users,
       child: Scaffold(
@@ -33,10 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           centerTitle: true,
           leading: IconButton(
-            icon: Icon(Icons.menu),
+            icon: Icon(Icons.person),
             iconSize: 30.0,
             color: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          StreamProvider<UserDocFirebase>.value(
+                              value: DatabaseService(uid: user.uid).userDoc,
+                              child: Profile())));
+            },
           ),
           elevation: 0.0,
           actions: [
@@ -60,11 +72,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30.0),
                           topRight: Radius.circular(30.0))),
-                  child: Column(
-                    children: [
-                      FavoriteContact(),
-                      RecentChats(),
-                    ],
+                  child: StreamProvider<UserDocFirebase>.value(
+                    value: DatabaseService(uid: user.uid).userDoc,
+                    child: Column(
+                      children: [
+                        FavoriteContact(),
+                        RecentChats(),
+                      ],
+                    ),
                   )),
             ),
           ],

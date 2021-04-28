@@ -23,7 +23,7 @@ class AuthService {
           email: email, password: password);
       User user = result.user;
       //create user in user collection
-      await DatabaseService(uid: user.uid).updateUser(username, phone);
+      await DatabaseService(uid: user.uid).updateUser(username, phone, '');
       return _userFromUserFirebase(user);
     } catch (e) {
       print(e.toString());
